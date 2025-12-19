@@ -1,0 +1,51 @@
+{
+    "name": "agentic-browser-oct",
+    "id": "agentic-browser-oct",
+    "endpoint": "https://fra.cloud.appwrite.io/v1",
+    "project": "6945d1c2000111091fd1",
+    "functions": [
+        {
+            "$id": "start-agent",
+            "name": "Start Agent",
+            "runtime": "node-18.0",
+            "path": "functions/start-agent",
+            "entrypoint": "src/main.js",
+            "execute": [
+                "any"
+            ],
+            "events": [],
+            "schedule": "",
+            "timeout": 15,
+            "enabled": true,
+            "logging": true,
+            "scopes": [
+                "documents.write",
+                "executions.write"
+            ],
+            "vars": {
+                "APPWRITE_FUNCTION_ENDPOINT": "https://fra.cloud.appwrite.io/v1",
+                "APPWRITE_FUNCTION_PROJECT_ID": "6945d1c2000111091fd1"
+            }
+        },
+        {
+            "$id": "agent-orchestrator",
+            "name": "Agent Orchestrator",
+            "runtime": "node-18.0",
+            "path": "functions/agent-orchestrator",
+            "entrypoint": "src/main.js",
+            "execute": [
+                "any"
+            ],
+            "events": [],
+            "schedule": "",
+            "timeout": 900,
+            "enabled": true,
+            "logging": true,
+            "vars": {
+                "GEMINI_API_KEY": "",
+                "EXECUTOR_URL": "",
+                "EXECUTOR_API_KEY": ""
+            }
+        }
+    ]
+}

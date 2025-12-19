@@ -1,12 +1,13 @@
 import { Client, Account, Databases } from "appwrite";
 
 const client = new Client()
-  .setEndpoint("https://fra.cloud.appwrite.io/v1")
-  .setProject("6945d1c2000111091fd1");
+  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
 
 const account = new Account(client);
 const databases = new Databases(client);
 
-client.ping();
+// Verify connection on load
+client.ping().catch(() => console.log("Appwrite not connected yet."));
 
 export { client, account, databases };

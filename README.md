@@ -70,6 +70,7 @@ Detailed documentation is available in the [GitHub Wiki](https://github.com/Umes
 - [Architecture Details](./docs/architecture.md)
 - [Agent Workflow](./docs/agent-flow.md)
 - [Setup Guide](./docs/setup.md)
+- [Deployment & Security](./docs/deployment.md)
 
 ## 📄 License
 
