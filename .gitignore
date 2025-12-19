@@ -1,0 +1,17 @@
+# Node
+node_modules/
+dist/
+build/
+.next/
+.env
+
+# Appwrite
+.appwrite/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
