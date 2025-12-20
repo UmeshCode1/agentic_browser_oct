@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Appwrite + Next.js",
   description: "Appwrite starter for Next.js",

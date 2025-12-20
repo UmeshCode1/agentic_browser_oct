@@ -1,7 +1,29 @@
 @import "tailwindcss";
 
-summary::-webkit-details-marker {
-  display: none
+:root {
+  --bg-dark: #050505;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --accent-pink: #FD366E;
+  --accent-glow: rgba(253, 54, 110, 0.3);
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: #e5e7eb;
+  overflow-x: hidden;
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.pink-glow {
+  box-shadow: 0 0 20px 2px var(--accent-glow);
 }
 
 .checker-background::before {
@@ -11,10 +33,25 @@ summary::-webkit-details-marker {
   right: 0;
   bottom: 0;
   left: 0;
-  background-image: linear-gradient(#e6e6e690 1px, transparent 1px),
-    linear-gradient(90deg, #e6e6e690 1px, transparent 1px);
-  background-size: 3.7em 3.7em;
-  mask-image: radial-gradient(ellipse at 50% 40%, black 0%, transparent 55%);
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 4em 4em;
+  mask-image: radial-gradient(ellipse at 50% 40%, black 0%, transparent 65%);
   z-index: -1;
-  background-position-x: center;
+  background-position: center;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+summary::-webkit-details-marker {
+  display: none
 }

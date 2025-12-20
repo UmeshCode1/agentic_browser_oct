@@ -7,7 +7,4 @@ const client = new Client()
 const account = new Account(client);
 const databases = new Databases(client);
 
-// Verify connection on load
-client.ping().catch(() => console.log("Appwrite not connected yet."));
-
 export { client, account, databases };
