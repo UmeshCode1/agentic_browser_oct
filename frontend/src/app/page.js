@@ -51,6 +51,37 @@ export default function Home() {
       }
     };
     init();
+
+    // Realtime Subscription
+    const unsubscribe = client.subscribe(
+      [
+        `databases.agentic_browser.collections.steps.documents`,
+        `databases.agentic_browser.collections.logs.documents`
+      ],
+      (response) => {
+        if (response.events.includes("databases.*.collections.*.documents.*.create")) {
+          const payload = response.payload;
+
+          // Handle new Step
+          if (payload.$collectionId === 'steps') {
+            setSteps(prev => [...prev, payload]);
+          }
+
+          // Handle new Log
+          if (payload.$collectionId === 'logs') {
+            setLogs(prev => [...prev, {
+              date: new Date(),
+              message: payload.message,
+              type: payload.type || 'info'
+            }]);
+          }
+        }
+      }
+    );
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   async function launchAgent() {
@@ -121,8 +152,8 @@ export default function Home() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all duration-300 flex items-center gap-2 ${activeTab === tab.id
-                    ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-[0_0_20px_rgba(168,85,247,0.4)]"
-                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                  ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+                  : "text-gray-400 hover:text-white hover:bg-white/5"
                   }`}
               >
                 {tab.icon}
@@ -372,8 +403,8 @@ function ToolsView({ onLaunch }) {
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all border ${activeCategory === cat
-                  ? "bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] scale-105"
-                  : "bg-black/30 border-white/10 text-gray-500 hover:bg-white/10 hover:text-white"
+                ? "bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] scale-105"
+                : "bg-black/30 border-white/10 text-gray-500 hover:bg-white/10 hover:text-white"
                 }`}
             >
               {cat}
