@@ -1,87 +1,101 @@
-# Agentic Browser (agentic-browser-oct)
+# 🧠 Agentic Browser (agentic-browser-oct)
 
-An AI-powered autonomous web interaction system that can browse websites, extract information, and take actions using a reasoning loop.
+[![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
+[![Appwrite](https://img.shields.io/badge/Appwrite-Cloud-d0225d)](https://appwrite.io/)
+[![Gemini](https://img.shields.io/badge/AI-Gemini%202.0-blue)](https://deepmind.google/technologies/gemini/)
+[![Playwright](https://img.shields.io/badge/Browser-Playwright-45ba4b)](https://playwright.dev/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🚀 Overview
+> **"The World's Best AI-Powered Autonomous Web Agent"**
 
-The **Agentic Browser** is a production-grade AI agent system designed to handle complex web-defined goals. Unlike traditional scrapers, this system reasons through steps, observes page contents, and decides on next actions autonomously.
+**Agentic Browser** is a production-grade, autonomous web interaction system. It doesn't just scrape; it *thinks*, *observes*, and *acts*. Powered by Google's Gemini 2.0 Flash and a dedicated Playwright executor, it can navigate complex web workflows, fill forms, and extract data with reasoning capabilities.
 
-### Key Features
+---
 
-- **Autonomous Reasoning:** Plan -> Act -> Observe -> Decide loop powered by Gemini API.
-- **Real-time Monitoring:** Watch the agent's steps and logs as they happen.
-- **Headless Browser Execution:** Powered by Playwright on a dedicated service.
-- **Secure Orchestration:** Appwrite Functions manage logic and API security.
+## ✨ Key Features
+
+- **🤖 Autonomous Reasoning Engine**: Implements a sophisticated **Plan-Act-Observe-Decide** loop.
+- **👀 Real-Time Observation**: Watch the agent's thought process and actions live on the dashboard.
+- **☁️ Headless Cloud Execution**: Scalable browser sessions powered by a deployed Executor service.
+- **🔒 Secure & Scalable**: Fully integrated with Appwrite for Authentication, Database, and Serverless Functions.
+- **🚀 Modern Tech Stack**: Built with Next.js 14, Tailwind CSS, and Node.js.
+
+---
 
 ## 🏗 System Architecture
 
-The project follows a monorepo structure:
+The project is structured as a modern monorepo:
 
-- **`/frontend`**: Next.js application (Deployed on Vercel).
-- **`/backend`**: Appwrite Functions and configuration.
-- **`/executor`**: Playwright service (Deployed on Render).
-- **`/docs`**: Project documentation and GitHub Wiki source.
+| Directory | Service | Description |
+| :--- | :--- | :--- |
+| **`/frontend`** | **Control Center** | Next.js Dashboard for users to issue commands and watch agent logs. |
+| **`/backend`** | **Brain & Logic** | Appwrite Functions (`Agent Orchestrator`) that handle the AI reasoning loop. |
+| **`/executor`** | **Hands & Eyes** | Express.js + Playwright service that physically interacts with web pages. |
 
-## 🛠 Tech Stack
+---
 
-- **Frontend:** Next.js, Tailwind CSS, Appwrite Realtime.
-- **Backend:** Appwrite Cloud (Auth, DB, Functions, Storage).
-- **AI:** Gemini API (Planning & Reasoning).
-- **Browser:** Playwright (Headless Chromium).
-- **Deployment:** Vercel (Frontend), Appwrite Cloud (Backend), Render (Executor).
+## 🚀 Getting Started
 
-## 🚦 Getting Started
+Follow these steps to deploy your own instance of Agentic Browser.
 
 ### Prerequisites
 
-- Node.js & npm
-- Appwrite Cloud Account
-- Gemini API Key
-- Render Account (for Executor)
+- **Node.js** (v18+)
+- **Appwrite Cloud** Account
+- **Google Gemini API** Key
 
-### Installation
+### 1. Installation
 
-1. **Clone the repo:**
+```bash
+git clone https://github.com/UmeshCode1/agentic_browser_oct.git
+cd agentic_browser_oct
+```
 
-   ```bash
-   git clone https://github.com/UmeshCode1/agentic_browser_oct.git
-   cd agentic_browser_oct
-   ```
+### 2. Environment Setup
 
-2. **Setup Frontend:**
+Create a `.env.local` file in the root directory. This is your single source of truth for secrets.
 
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
+```env
+# Appwrite Configuration
+NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+NEXT_PUBLIC_APPWRITE_PROJECT_ID=your_project_id_here
 
-3. **Setup Executor:**
+# AI Configuration
+GEMINI_API_KEY=your_gemini_api_key_here
+```
 
-   ```bash
-   cd executor
-   # Instructions in executor/README.md
-   ```
+### 3. Run Frontend
 
-4. **Environment Setup:**
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-   Create a `.env.local` file in the root directory (and frontend directory) with your credentials:
+Visit `http://localhost:3000` to see the Agentic Browser Dashboard.
 
-   ```bash
-   NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
-   NEXT_PUBLIC_APPWRITE_PROJECT_ID=your_project_id
-   GEMINI_API_KEY=your_gemini_key
-   ```
+---
 
 ## 📘 Documentation
 
-Detailed documentation is available in the [GitHub Wiki](https://github.com/UmeshCode1/agentic_browser_oct/wiki).
+We believe in world-class documentation. Check out our detailed guides:
 
-- [Architecture Details](./docs/architecture.md)
-- [Agent Workflow](./docs/agent-flow.md)
-- [Setup Guide](./docs/setup.md)
-- [Deployment & Security](./docs/deployment.md)
+- [**Architecture Deep Dive**](./docs/architecture.md) - Understand how the PAOD loop works.
+- [**Agent Workflow**](./docs/agent-flow.md) - See the logic behind the AI's decisions.
+- [**Deployment Guide**](./docs/deployment.md) - Deploy to Vercel and Render.
+
+---
+
+## 🛡 Security
+
+This project takes security seriously:
+
+- **Zero Hardcoded Secrets**: All keys are managed via Environment Variables.
+- **Sanitized Logging**: Sensitive data is scrubbed before storage.
+- **Secure Functions**: Appwrite Functions run in isolated environments.
+
+---
 
 ## 📄 License
 
-MIT
+This project is open-sourced under the MIT License.
