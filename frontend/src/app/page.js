@@ -38,6 +38,20 @@ export default function Home() {
     scrollToBottom();
   }, [logs]);
 
+  useEffect(() => {
+    const init = async () => {
+      try {
+        await client.ping();
+        console.log("Appwrite Ping Success");
+        setLogs(prev => [...prev, { date: new Date(), message: "System Online: Secure connection verified.", type: "success" }]);
+      } catch (error) {
+        console.error("Appwrite Ping Failed", error);
+        setLogs(prev => [...prev, { date: new Date(), message: "Connection Error: Failed to reach command server.", type: "error" }]);
+      }
+    };
+    init();
+  }, []);
+
   async function launchAgent() {
     if (!goal || status === "loading") return;
     setStatus("loading");

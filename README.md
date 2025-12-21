@@ -63,6 +63,16 @@ The project follows a monorepo structure:
    # Instructions in executor/README.md
    ```
 
+4. **Environment Setup:**
+
+   Create a `.env.local` file in the root directory (and frontend directory) with your credentials:
+
+   ```bash
+   NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+   NEXT_PUBLIC_APPWRITE_PROJECT_ID=your_project_id
+   GEMINI_API_KEY=your_gemini_key
+   ```
+
 ## 📘 Documentation
 
 Detailed documentation is available in the [GitHub Wiki](https://github.com/UmeshCode1/agentic_browser_oct/wiki).

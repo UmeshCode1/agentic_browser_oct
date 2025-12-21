@@ -4,6 +4,10 @@ dist/
 build/
 .next/
 .env
+.env.local
+.env.development
+.env.test
+.env.production
 
 # Appwrite
 .appwrite/
