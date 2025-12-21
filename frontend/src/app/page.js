@@ -329,3 +329,77 @@ function DocsView() {
     </motion.div>
   );
 }
+
+function ToolsView({ onLaunch }) {
+  const tools = [
+    {
+      name: "Crypto Tracker",
+      description: "Real-time cryptocurrency prices via CoinGecko API.",
+      icon: <Activity className="w-6 h-6 text-green-400" />,
+      action: "Go to https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd,eur and summarize the current prices."
+    },
+    {
+      name: "Weather Station",
+      description: "Global weather conditions via OpenMeteo API.",
+      icon: <Globe className="w-6 h-6 text-blue-400" />,
+      action: "Go to https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current_weather=true and tell me the temperature in Berlin."
+    },
+    {
+      name: "Tech News",
+      description: "Latest headlines from Hacker News API.",
+      icon: <Terminal className="w-6 h-6 text-orange-400" />,
+      action: "Go to https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty, pick the first ID, and summarize the story."
+    },
+    {
+      name: "SpaceX Launches",
+      description: "Upcoming launch schedule from SpaceX API.",
+      icon: <Cpu className="w-6 h-6 text-purple-400" />,
+      action: "Go to https://api.spacexdata.com/v4/launches/latest and tell me the mission name and details."
+    }
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 1.05 }}
+      className="h-full overflow-y-auto custom-scrollbar p-4"
+    >
+      <div className="max-w-5xl mx-auto">
+        <header className="text-center mb-12">
+          <h1 className="text-3xl font-bold text-white mb-2">Tools Ecosystem</h1>
+          <p className="text-gray-400">Expand your agent's capabilities with public APIs.</p>
+        </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+          {tools.map((tool, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="glass-card rounded-2xl p-6 cursor-pointer group hover:bg-white/5 transition-colors relative overflow-hidden"
+              onClick={() => onLaunch(tool.action)}
+            >
+              <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <ArrowRight className="w-5 h-5 text-white -rotate-45" />
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-xl bg-white/5 border border-white/10">
+                  {tool.icon}
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-2">{tool.name}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed mb-4">{tool.description}</p>
+                  <div className="text-[10px] font-mono text-gray-500 bg-black/30 p-2 rounded-lg border border-white/5 truncate max-w-[300px]">
+                    {tool.action}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
