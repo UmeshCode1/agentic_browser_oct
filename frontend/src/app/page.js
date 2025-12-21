@@ -107,28 +107,34 @@ export default function Home() {
       </motion.div>
 
       {/* Main Content Container */}
-      <div className="w-full max-w-6xl z-10 flex flex-col h-[85vh]">
+      <div className="w-full max-w-7xl z-10 flex flex-col h-[calc(100vh-120px)]">
 
         {/* Navigation Tabs */}
-        <div className="flex justify-center mb-8">
-          <div className="glass-card p-1 rounded-full flex gap-1">
+        <div className="flex justify-center mb-6 shrink-0 z-50">
+          <div className="glass-card p-1.5 rounded-full flex gap-2 shadow-2xl bg-black/40 backdrop-blur-xl border border-white/10">
             <button
               onClick={() => setActiveTab("dashboard")}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "dashboard" ? "bg-white/10 text-white shadow-lg" : "text-gray-400 hover:text-white"
+              className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${activeTab === "dashboard"
+                  ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg scale-105"
+                  : "text-gray-400 hover:text-white hover:bg-white/5"
                 }`}
             >
               Agent Dashboard
             </button>
             <button
               onClick={() => setActiveTab("tools")}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "tools" ? "bg-white/10 text-white shadow-lg" : "text-gray-400 hover:text-white"
+              className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${activeTab === "tools"
+                  ? "bg-gradient-to-r from-purple-600 to-purple-500 text-white shadow-lg scale-105"
+                  : "text-gray-400 hover:text-white hover:bg-white/5"
                 }`}
             >
               Tools & Integrations
             </button>
             <button
               onClick={() => setActiveTab("docs")}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "docs" ? "bg-white/10 text-white shadow-lg" : "text-gray-400 hover:text-white"
+              className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${activeTab === "docs"
+                  ? "bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg scale-105"
+                  : "text-gray-400 hover:text-white hover:bg-white/5"
                 }`}
             >
               Quickstart Guide
@@ -137,15 +143,16 @@ export default function Home() {
         </div>
 
         {/* Tab Content */}
-        <div className="flex-1 overflow-hidden relative">
+        <div className="flex-1 overflow-hidden relative glass-card rounded-3xl p-1 border-t border-white/10 shadow-2xl">
           <AnimatePresence mode="wait">
             {activeTab === "dashboard" ? (
               <motion.div
                 key="dashboard"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                className="h-full flex flex-col"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="h-full flex flex-col p-6"
               >
                 <header className="text-center mb-8">
                   <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent mb-2">
