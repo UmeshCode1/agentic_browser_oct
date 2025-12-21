@@ -1,162 +1,107 @@
 @import "tailwindcss";
 
 :root {
-  /* Deep Nebula Palette */
-  --bg-core: #030014;
-  --bg-gradient-start: #0f0518;
-  --bg-gradient-end: #1a103c;
+  /* Fellou-Inspired Deep Void Palette */
+  --bg-core: #050505;
+  --bg-secondary: #0a0a0a;
 
-  --glass-surface: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-highlight: rgba(255, 255, 255, 0.12);
+  --accent-purple: #8b5cf6;
+  --accent-blue: #3b82f6;
+  --accent-glow: rgba(139, 92, 246, 0.5);
 
-  --neon-purple: #a855f7;
-  --neon-blue: #3b82f6;
-  --neon-cyan: #06b6d4;
+  --glass-base: rgba(15, 15, 20, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-highlight: rgba(255, 255, 255, 0.1);
 
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-tertiary: #64748b;
+  --text-main: #ffffff;
+  --text-muted: #a1a1aa;
 }
 
 body {
   background-color: var(--bg-core);
-  color: var(--text-primary);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
   background-image:
-    radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 25%);
+    radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 40%);
+  min-height: 100vh;
 }
 
-/* Premium Glass Cards */
-.glass-card {
-  background: var(--glass-surface);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+/* Premium Component Classes */
+.fellou-card {
+  background: var(--glass-base);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 24px;
+  transition: all 0.3s ease;
 }
 
-.glass-card:hover {
-  background: rgba(255, 255, 255, 0.04);
+.fellou-card:hover {
   border-color: var(--glass-highlight);
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.2),
-    0 10px 10px -5px rgba(0, 0, 0, 0.1),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-    0 0 20px rgba(168, 85, 247, 0.15);
-  /* Purple Glow */
-  transform: translateY(-2px) scale(1.002);
+  box-shadow: 0 0 30px -10px var(--accent-glow);
 }
 
-/* Animated Grid Background */
-.checker-background {
-  position: relative;
+.fellou-input {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 99px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
-.checker-background::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
-  z-index: -1;
-  pointer-events: none;
+.fellou-input:focus-within {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 20px -5px var(--accent-glow);
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* Animations */
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-.float-animation {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-spin-slow {
-  animation: spin 3s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Text Gradients */
-.text-gradient-primary {
-  background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-logo {
-  background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Buttons */
-.btn-primary {
-  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+.fellou-button {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  border-radius: 99px;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 }
 
-.btn-primary::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transform: translateX(-100%);
+.fellou-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px var(--accent-glow);
 }
 
-.btn-primary:hover::after {
-  transform: translateX(100%);
-  transition: transform 0.6s ease;
+/* Chat Bubbles */
+.bubble-user {
+  background: #202025;
+  border-radius: 24px 4px 24px 24px;
+  border: 1px solid var(--glass-border);
 }
 
-summary::-webkit-details-marker {
-  display: none
+.bubble-agent {
+  background: transparent;
+  border-left: 2px solid var(--accent-purple);
+  padding-left: 1rem;
+}
+
+/* Typography Gradient */
+.text-gradient-fellou {
+  background: linear-gradient(to right, #fff 20%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
 }
