@@ -120,6 +120,13 @@ export default function Home() {
               Agent Dashboard
             </button>
             <button
+              onClick={() => setActiveTab("tools")}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "tools" ? "bg-white/10 text-white shadow-lg" : "text-gray-400 hover:text-white"
+                }`}
+            >
+              Tools & Integrations
+            </button>
+            <button
               onClick={() => setActiveTab("docs")}
               className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "docs" ? "bg-white/10 text-white shadow-lg" : "text-gray-400 hover:text-white"
                 }`}
@@ -238,6 +245,13 @@ export default function Home() {
                   </div>
                 </div>
               </motion.div>
+            ) : activeTab === "tools" ? (
+              <ToolsView onLaunch={(prompt) => {
+                setGoal(prompt);
+                setActiveTab("dashboard");
+                // Small delay to allow tab switch to render before launching
+                setTimeout(() => launchAgent(), 500);
+              }} />
             ) : (
               <DocsView />
             )}
