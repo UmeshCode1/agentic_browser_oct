@@ -188,7 +188,13 @@ export default function Home() {
           </AnimatePresence>
         </div>
       </div>
-    </main>
+
+      {/* Footer */}
+      <footer className="w-full text-center py-4 z-20 text-xs text-gray-500 font-mono tracking-widest uppercase opacity-70 hover:opacity-100 transition-opacity">
+        Designed by Umesh Patel
+      </footer>
+    </div>
+    </main >
   );
 }
 
@@ -207,7 +213,7 @@ function DashboardView({ goal, setGoal, launchAgent, status, logs, steps, logsEn
       <header className="text-center mb-8">
         <h1 className="text-5xl font-extrabold tracking-tight mb-2">
           <span className="text-gradient-primary">AGENTIC</span>
-          <span className="text-gradient-logo ml-3">LYNX</span>
+          <span className="text-gradient-logo ml-3">BROWSER</span>
         </h1>
         <p className="text-gray-400 text-sm font-medium tracking-wide">
           GEN 2.0 AUTONOMOUS BROWSER • APPWRITE POWERED
