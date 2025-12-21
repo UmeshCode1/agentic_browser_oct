@@ -6,16 +6,16 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export const dynamic = "force-dynamic";
 import {
-  Search,
-  Terminal,
   Activity,
   Cpu,
   Globe,
   ArrowRight,
-  CheckCircle2,
-  AlertCircle,
+  Terminal,
   Loader2,
-  Layers
+  Layers,
+  Sparkles,
+  Command,
+  Zap
 } from "lucide-react";
 import { client, functions } from "@/lib/appwrite";
 import Image from "next/image";
@@ -23,7 +23,7 @@ import NextjsLogo from "../static/nextjs-icon.svg";
 import AppwriteLogo from "../static/appwrite-icon.svg";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState("dashboard"); // dashboard | docs
+  const [activeTab, setActiveTab] = useState("dashboard");
   const [status, setStatus] = useState("idle");
   const [goal, setGoal] = useState("");
   const [taskId, setTaskId] = useState(null);
@@ -59,7 +59,6 @@ export default function Home() {
     setLogs([{ date: new Date(), message: "Initializing neural orchestrator...", type: "system" }]);
 
     try {
-      // 1. Trigger the Start Agent function
       const execution = await functions.createExecution(
         'start-agent',
         JSON.stringify({ goal, userId: 'user_frontend_demo' })
@@ -82,181 +81,74 @@ export default function Home() {
   }
 
   return (
-    <main className="checker-background min-h-screen flex flex-col items-center px-4 py-8 relative overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#3b82f6]/10 blur-[120px] rounded-full" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#8b5cf6]/10 blur-[120px] rounded-full" />
+    <main className="checker-background min-h-screen flex flex-col items-center px-4 py-6 relative overflow-hidden text-sm md:text-base">
 
-      {/* Header / Logos */}
+      {/* Dynamic Glow Orbs */}
+      <div className="absolute top-[-20%] left-[20%] w-[600px] h-[600px] bg-purple-600/10 blur-[150px] rounded-full animate-pulse pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-blue-600/10 blur-[150px] rounded-full pointer-events-none" />
+
+      {/* Header */}
       <motion.div
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         className="flex items-center gap-6 mb-8 z-20"
       >
-        <div className="glass-card rounded-2xl p-3 float-animation">
-          <Image src={NextjsLogo} alt="Next.js" width={32} height={32} className="invert" />
+        <div className="glass-card rounded-xl p-2.5 float-animation">
+          <Image src={NextjsLogo} alt="Next.js" width={24} height={24} className="invert opacity-90" />
         </div>
-        <div className="flex flex-col items-center">
-          <div className="h-px w-8 bg-gradient-to-r from-transparent via-blue-500 to-transparent mb-2" />
-          <Activity className="text-blue-500 w-4 h-4 animate-pulse" />
-          <div className="h-px w-8 bg-gradient-to-r from-transparent via-blue-500 to-transparent mt-2" />
+        <div className="flex flex-col items-center gap-1">
+          <div className="h-0.5 w-12 bg-gradient-to-r from-transparent via-purple-500 to-transparent" />
+          <span className="text-[10px] font-bold tracking-[0.2em] text-purple-300 uppercase glow">Connected</span>
+          <div className="h-0.5 w-12 bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
         </div>
-        <div className="glass-card rounded-2xl p-3 float-animation" style={{ animationDelay: '1s' }}>
-          <Image src={AppwriteLogo} alt="Appwrite" width={32} height={32} />
+        <div className="glass-card rounded-xl p-2.5 float-animation" style={{ animationDelay: '1.5s' }}>
+          <Image src={AppwriteLogo} alt="Appwrite" width={24} height={24} className="opacity-90" />
         </div>
       </motion.div>
 
-      {/* Main Content Container */}
-      <div className="w-full max-w-7xl z-10 flex flex-col h-[calc(100vh-120px)]">
+      {/* Main Layout */}
+      <div className="w-full max-w-7xl z-10 flex flex-col h-[calc(100vh-140px)]">
 
-        {/* Navigation Tabs */}
+        {/* Navigation Bar */}
         <div className="flex justify-center mb-6 shrink-0 z-50">
-          <div className="glass-card p-1.5 rounded-full flex gap-2 shadow-2xl bg-black/40 backdrop-blur-xl border border-white/10">
-            <button
-              onClick={() => setActiveTab("dashboard")}
-              className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${activeTab === "dashboard"
-                  ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg scale-105"
-                  : "text-gray-400 hover:text-white hover:bg-white/5"
-                }`}
-            >
-              Agent Dashboard
-            </button>
-            <button
-              onClick={() => setActiveTab("tools")}
-              className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${activeTab === "tools"
-                  ? "bg-gradient-to-r from-purple-600 to-purple-500 text-white shadow-lg scale-105"
-                  : "text-gray-400 hover:text-white hover:bg-white/5"
-                }`}
-            >
-              Tools & Integrations
-            </button>
-            <button
-              onClick={() => setActiveTab("docs")}
-              className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${activeTab === "docs"
-                  ? "bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg scale-105"
-                  : "text-gray-400 hover:text-white hover:bg-white/5"
-                }`}
-            >
-              Quickstart Guide
-            </button>
+          <div className="glass-card p-1.5 rounded-full flex gap-1 shadow-2xl bg-black/40 backdrop-blur-2xl border border-white/5">
+            {[
+              { id: 'dashboard', label: 'Dashboard', icon: <Command className="w-4 h-4" /> },
+              { id: 'tools', label: 'Tools', icon: <Zap className="w-4 h-4" /> },
+              { id: 'docs', label: 'Quickstart', icon: <Sparkles className="w-4 h-4" /> }
+            ].map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all duration-300 flex items-center gap-2 ${activeTab === tab.id
+                    ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                  }`}
+              >
+                {tab.icon}
+                {tab.label}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Tab Content */}
-        <div className="flex-1 overflow-hidden relative glass-card rounded-3xl p-1 border-t border-white/10 shadow-2xl">
+        {/* Content Area */}
+        <div className="flex-1 overflow-hidden relative glass-card rounded-3xl border border-white/5 shadow-2xl bg-black/20 backdrop-blur-3xl">
           <AnimatePresence mode="wait">
             {activeTab === "dashboard" ? (
-              <motion.div
-                key="dashboard"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className="h-full flex flex-col p-6"
-              >
-                <header className="text-center mb-8">
-                  <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent mb-2">
-                    AGENTIC BROWSER
-                  </h1>
-                  <p className="text-gray-400 text-sm font-medium">Autonomous Intelligence • Appwrite Orchestration • Gemini 2.0</p>
-                </header>
-
-                <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col">
-                  {/* Input Section */}
-                  <motion.div layout className="glass-card rounded-2xl p-2 mb-6 flex items-center shadow-2xl">
-                    <div className="px-4 text-gray-400">
-                      <Globe className="w-5 h-5" />
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="Define the mission goal..."
-                      className="flex-1 bg-transparent py-4 px-2 outline-none text-lg font-medium placeholder:text-gray-600"
-                      value={goal}
-                      onChange={(e) => setGoal(e.target.value)}
-                    />
-                    <button
-                      onClick={launchAgent}
-                      disabled={status === "loading" || status === "running" || !goal}
-                      className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl px-8 py-3 font-bold flex items-center gap-2 transition-all active:scale-95 m-1"
-                    >
-                      {status === "running" ? <Loader2 className="w-5 h-5 animate-spin" /> : <ArrowRight className="w-5 h-5" />}
-                      {status === "running" ? "ACTIVE" : "LAUNCH"}
-                    </button>
-                  </motion.div>
-
-                  {/* Dashboard Grid */}
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-0">
-                    {/* Reasoning Panel */}
-                    <div className="lg:col-span-2 glass-card rounded-2xl p-6 flex flex-col overflow-hidden">
-                      <div className="flex items-center justify-between mb-6 shrink-0">
-                        <div className="flex items-center gap-3">
-                          <Cpu className="text-purple-400 w-5 h-5" />
-                          <h2 className="text-lg font-bold">Reasoning Engine</h2>
-                        </div>
-                        <div className="flex items-center gap-2 text-[10px] font-mono bg-white/5 py-1 px-3 rounded-full border border-white/10 uppercase tracking-widest text-blue-300">
-                          <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                          Live Sync
-                        </div>
-                      </div>
-                      <div className="space-y-6 overflow-y-auto custom-scrollbar pr-2">
-                        <AnimatePresence mode="popLayout">
-                          {steps.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center h-40 text-center text-gray-600">
-                              <Layers className="w-8 h-8 mb-3 opacity-20" />
-                              <p className="text-sm">Agent is awaiting instructions.</p>
-                            </div>
-                          ) : (
-                            steps.map((step, i) => (
-                              <motion.div
-                                key={i}
-                                initial={{ x: -10, opacity: 0 }}
-                                animate={{ x: 0, opacity: 1 }}
-                                className="pl-6 border-l border-blue-500/30 relative"
-                              >
-                                <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
-                                <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider mb-1 block">Step {i + 1}</span>
-                                <p className="text-white font-light mb-2">{step.reasoning}</p>
-                                <div className="bg-black/30 rounded-lg p-3 font-mono text-xs text-blue-200 border border-white/5">
-                                  <span className="text-purple-400">{step.action}</span>
-                                  <span className="text-gray-500 ml-2">{JSON.stringify(step.params)}</span>
-                                </div>
-                              </motion.div>
-                            ))
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    </div>
-
-                    {/* Logs Panel */}
-                    <div className="glass-card rounded-2xl flex flex-col overflow-hidden bg-black/40">
-                      <div className="bg-white/5 p-4 border-b border-white/5 shrink-0">
-                        <div className="flex items-center gap-2">
-                          <Terminal className="w-4 h-4 text-gray-400" />
-                          <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">System Logs</span>
-                        </div>
-                      </div>
-                      <div className="p-4 font-mono text-[10px] overflow-y-auto flex-1 custom-scrollbar">
-                        <div className="space-y-2">
-                          {logs.map((log, i) => (
-                            <div key={i} className="flex gap-2">
-                              <span className="text-gray-600 shrink-0">[{log.date.toLocaleTimeString([], { hour12: false })}]</span>
-                              <span className={log.type === 'error' ? 'text-red-400' : log.type === 'success' ? 'text-green-400' : 'text-gray-300'}>
-                                {log.message}
-                              </span>
-                            </div>
-                          ))}
-                          <div ref={logsEndRef} />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+              <DashboardView
+                goal={goal}
+                setGoal={setGoal}
+                launchAgent={launchAgent}
+                status={status}
+                logs={logs}
+                steps={steps}
+                logsEndRef={logsEndRef}
+              />
             ) : activeTab === "tools" ? (
               <ToolsView onLaunch={(prompt) => {
                 setGoal(prompt);
                 setActiveTab("dashboard");
-                // Small delay to allow tab switch to render before launching
                 setTimeout(() => launchAgent(), 500);
               }} />
             ) : (
@@ -269,68 +161,119 @@ export default function Home() {
   );
 }
 
-function DocsView() {
+// --- Sub-Components ---
+
+function DashboardView({ goal, setGoal, launchAgent, status, logs, steps, logsEndRef }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      className="h-full flex gap-8"
+      key="dashboard"
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 1.02 }}
+      transition={{ duration: 0.4 }}
+      className="h-full flex flex-col p-6 md:p-8"
     >
-      {/* Sidebar */}
-      <div className="w-64 glass-card rounded-2xl p-6 hidden md:block h-full overflow-y-auto">
-        <h3 className="font-bold text-white mb-6 tracking-wide">DOCUMENTATION</h3>
-        <ul className="space-y-4 text-sm font-medium text-gray-400">
-          <li className="text-blue-400">Quickstart</li>
-          <li className="hover:text-white cursor-pointer transition-colors">Architecture</li>
-          <li className="hover:text-white cursor-pointer transition-colors">Configuration</li>
-          <li className="hover:text-white cursor-pointer transition-colors">API Reference</li>
-        </ul>
-      </div>
+      <header className="text-center mb-8">
+        <h1 className="text-5xl font-extrabold tracking-tight mb-2">
+          <span className="text-gradient-primary">AGENTIC</span>
+          <span className="text-gradient-logo ml-3">LYNX</span>
+        </h1>
+        <p className="text-gray-400 text-sm font-medium tracking-wide">
+          GEN 2.0 AUTONOMOUS BROWSER • APPWRITE POWERED
+        </p>
+      </header>
 
-      {/* Main Content */}
-      <div className="flex-1 glass-card rounded-2xl p-8 overflow-y-auto custom-scrollbar">
-        <div className="max-w-3xl">
-          <h1 className="text-3xl font-bold text-white mb-2">Quickstart</h1>
-          <p className="text-gray-400 mb-8 text-lg">Your first autonomous mission in 30 seconds.</p>
+      <div className="max-w-5xl mx-auto w-full flex-1 flex flex-col gap-6 min-h-0">
 
-          <section className="mb-10">
-            <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-xs text-center border border-blue-500/50">1</span>
-              Configure Environment
-            </h2>
-            <p className="text-gray-400 mb-4 leading-relaxed">
-              Ensure you have your environment variables set locally or in your deployment.
-            </p>
-            <div className="bg-black/50 border border-white/10 rounded-xl p-4 font-mono text-sm text-gray-300 overflow-x-auto">
-              <div className="flex select-none text-gray-600 mb-2 border-b border-white/10 pb-2">.env.local</div>
-              <p><span className="text-purple-400">GEMINI_API_KEY</span>=AIzaTx...</p>
-              <p><span className="text-purple-400">EXECUTOR_API_KEY</span>=sk_exec_...</p>
+        {/* Input Bar */}
+        <div className="glass-card rounded-2xl p-2 flex items-center shadow-lg group focus-within:ring-2 ring-purple-500/30 transition-all">
+          <div className="px-4 text-purple-400 group-focus-within:text-purple-300 transition-colors">
+            <Globe className="w-5 h-5 animate-pulse" />
+          </div>
+          <input
+            type="text"
+            placeholder="What is your mission objective?"
+            className="flex-1 bg-transparent py-4 px-2 outline-none text-lg font-medium placeholder:text-gray-600 text-white"
+            value={goal}
+            onChange={(e) => setGoal(e.target.value)}
+          />
+          <button
+            onClick={launchAgent}
+            disabled={status === "loading" || status === "running" || !goal}
+            className="btn-primary text-white rounded-xl px-8 py-3 font-bold flex items-center gap-2 transition-all active:scale-95 m-1 disabled:opacity-50 disabled:grayscale"
+          >
+            {status === "running" ? <Loader2 className="w-5 h-5 animate-spin" /> : <ArrowRight className="w-5 h-5" />}
+            {status === "running" ? "ACTIVE" : "LAUNCH"}
+          </button>
+        </div>
+
+        {/* Split View */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0">
+
+          {/* Main Monitor (Steps) */}
+          <div className="lg:col-span-8 glass-card rounded-2xl p-6 flex flex-col overflow-hidden bg-black/20">
+            <div className="flex items-center justify-between mb-6 shrink-0 border-b border-white/5 pb-4">
+              <div className="flex items-center gap-3">
+                <Cpu className="text-purple-400 w-5 h-5" />
+                <h2 className="text-lg font-bold text-gray-200">Neural Engine</h2>
+              </div>
+              <div className="flex items-center gap-2 text-[10px] font-mono bg-purple-500/10 py-1 px-3 rounded-full border border-purple-500/20 uppercase tracking-widest text-purple-300">
+                <div className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+                Live Feed
+              </div>
             </div>
-          </section>
 
-          <section className="mb-10">
-            <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-xs text-center border border-blue-500/50">2</span>
-              Launch a Mission
-            </h2>
-            <p className="text-gray-400 mb-4 leading-relaxed">
-              Navigate to the <b className="text-white">Dashboard</b> tab and enter a natural language command.
-            </p>
-            <div className="bg-blue-500/10 border-l-2 border-blue-500 p-4 rounded-r-xl mb-4">
-              <p className="text-blue-200 italic">"Go to google.com, search for 'DeepMind', and summarize the first result."</p>
+            <div className="space-y-6 overflow-y-auto custom-scrollbar pr-2 flex-1">
+              <AnimatePresence mode="popLayout">
+                {steps.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-full text-center text-gray-600 opacity-50">
+                    <Activity className="w-12 h-12 mb-4 text-gray-700" />
+                    <p className="text-sm font-medium tracking-wide">AWAITING MISSION PARAMETERS</p>
+                  </div>
+                ) : (
+                  steps.map((step, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ x: -20, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      className="pl-6 border-l-2 border-purple-500/30 relative"
+                    >
+                      <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.6)]" />
+                      <span className="text-[10px] font-bold text-purple-400 uppercase tracking-wider mb-2 block">Step {i + 1}</span>
+                      <p className="text-gray-100 font-light text-lg mb-3 leading-relaxed">{step.reasoning}</p>
+                      <div className="bg-black/40 rounded-lg p-3 font-mono text-xs text-blue-200 border border-white/5 flex items-center gap-3">
+                        <span className="text-purple-400 font-bold uppercase">{step.action}</span>
+                        <span className="text-gray-500 truncate">{JSON.stringify(step.params)}</span>
+                      </div>
+                    </motion.div>
+                  ))
+                )}
+              </AnimatePresence>
             </div>
-          </section>
+          </div>
 
-          <section>
-            <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 text-xs text-center border border-blue-500/50">3</span>
-              Watch it Think
-            </h2>
-            <p className="text-gray-400 leading-relaxed">
-              The Agentic Browser uses a <b>Plan-Act-Observe-Decide</b> loop. You will see real-time logs in the console panel as the agent navigates the web autonomously.
-            </p>
-          </section>
+          {/* Side Monitor (Logs) */}
+          <div className="lg:col-span-4 glass-card rounded-2xl flex flex-col overflow-hidden bg-black/40">
+            <div className="bg-white/5 p-4 border-b border-white/5 shrink-0">
+              <div className="flex items-center gap-2">
+                <Terminal className="w-4 h-4 text-gray-400" />
+                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">System Logs</span>
+              </div>
+            </div>
+            <div className="p-4 font-mono text-[10px] overflow-y-auto flex-1 custom-scrollbar text-gray-400 leading-relaxed">
+              <div className="space-y-2.5">
+                {logs.map((log, i) => (
+                  <div key={i} className="flex gap-2">
+                    <span className="text-gray-600 shrink-0 select-none">[{log.date.toLocaleTimeString([], { hour12: false, minute: '2-digit', second: '2-digit' })}]</span>
+                    <span className={log.type === 'error' ? 'text-red-400' : log.type === 'success' ? 'text-green-400' : 'text-gray-300'}>
+                      {log.message}
+                    </span>
+                  </div>
+                ))}
+                <div ref={logsEndRef} />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -338,73 +281,180 @@ function DocsView() {
 }
 
 function ToolsView({ onLaunch }) {
+  const [activeCategory, setActiveCategory] = useState("all");
+
   const tools = [
+    // 💰 Finance
     {
+      category: "finance",
       name: "Crypto Tracker",
-      description: "Real-time cryptocurrency prices via CoinGecko API.",
-      icon: <Activity className="w-6 h-6 text-green-400" />,
-      action: "Go to https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd,eur and summarize the current prices."
+      description: "Real-time market values (INR/USD)",
+      icon: <Activity className="w-5 h-5 text-green-400" />,
+      action: "Go to https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,matic-network&vs_currencies=inr,usd and present the current prices in a styled table."
     },
     {
-      name: "Weather Station",
-      description: "Global weather conditions via OpenMeteo API.",
-      icon: <Globe className="w-6 h-6 text-blue-400" />,
-      action: "Go to https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current_weather=true and tell me the temperature in Berlin."
+      category: "finance",
+      name: "Forex Dashboard",
+      description: "Global currency exchange rates",
+      icon: <Activity className="w-5 h-5 text-emerald-400" />,
+      action: "Go to https://api.frankfurter.app/latest?from=USD&to=INR,EUR,GBP,JPY and show the conversion rates to Indian Rupee."
+    },
+    // 🧠 Knowledge
+    {
+      category: "knowledge",
+      name: "Tech Pulse",
+      description: "Top stories from Hacker News",
+      icon: <Terminal className="w-5 h-5 text-orange-400" />,
+      action: "Go to https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty, fetch the first 5 stories, and summarize the key tech trends."
     },
     {
-      name: "Tech News",
-      description: "Latest headlines from Hacker News API.",
-      icon: <Terminal className="w-6 h-6 text-orange-400" />,
-      action: "Go to https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty, pick the first ID, and summarize the story."
+      category: "knowledge",
+      name: "Wikipedia Pro",
+      description: "India-focused Encyclopedia",
+      icon: <Globe className="w-5 h-5 text-gray-200" />,
+      action: "Go to https://en.wikipedia.org/api/rest_v1/page/summary/India and provide a concise summary."
+    },
+    // 🧪 Science
+    {
+      category: "science",
+      name: "New Delhi Weather",
+      description: "Live meteorological data",
+      icon: <Globe className="w-5 h-5 text-blue-400" />,
+      action: "Go to https://api.open-meteo.com/v1/forecast?latitude=28.61&longitude=77.20&current_weather=true and report the current temperature and conditions."
     },
     {
-      name: "SpaceX Launches",
-      description: "Upcoming launch schedule from SpaceX API.",
-      icon: <Cpu className="w-6 h-6 text-purple-400" />,
-      action: "Go to https://api.spacexdata.com/v4/launches/latest and tell me the mission name and details."
+      category: "science",
+      name: "NASA Deep Space",
+      description: "Astronomy Picture of the Day",
+      icon: <Globe className="w-5 h-5 text-purple-500" />,
+      action: "Go to https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY and describe the cosmic image."
+    },
+    // 🛠️ Utility
+    {
+      category: "utility",
+      name: "IP Detective",
+      description: "Network geolocation analysis",
+      icon: <Globe className="w-5 h-5 text-cyan-400" />,
+      action: "Go to https://ipapi.co/json/ and analyze my current network parameters."
+    },
+    {
+      category: "utility",
+      name: "Dictionary",
+      description: "Etymology & definitions",
+      icon: <Terminal className="w-5 h-5 text-teal-400" />,
+      action: "Go to https://api.dictionaryapi.dev/api/v2/entries/en/namaste and explain the word."
     }
   ];
 
+  const categories = ["all", "finance", "knowledge", "science", "utility"];
+  const filteredTools = activeCategory === "all" ? tools : tools.filter(t => t.category === activeCategory);
+
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 1.05 }}
-      className="h-full overflow-y-auto custom-scrollbar p-4"
+      key="tools"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="h-full overflow-y-auto custom-scrollbar p-6 md:p-10"
     >
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto pb-20">
         <header className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-white mb-2">Tools Ecosystem</h1>
-          <p className="text-gray-400">Expand your agent's capabilities with public APIs.</p>
+          <h1 className="text-4xl font-extrabold text-white mb-4 tracking-tight">Command Center</h1>
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Direct interface to global data streams. Select a module to initiate an autonomous agent task.
+          </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {tools.map((tool, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="glass-card rounded-2xl p-6 cursor-pointer group hover:bg-white/5 transition-colors relative overflow-hidden"
-              onClick={() => onLaunch(tool.action)}
+        {/* Filter Pills */}
+        <div className="flex justify-center flex-wrap gap-2 mb-12">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all border ${activeCategory === cat
+                  ? "bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] scale-105"
+                  : "bg-black/30 border-white/10 text-gray-500 hover:bg-white/10 hover:text-white"
+                }`}
             >
-              <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                <ArrowRight className="w-5 h-5 text-white -rotate-45" />
-              </div>
+              {cat}
+            </button>
+          ))}
+        </div>
 
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-white/5 border border-white/10">
-                  {tool.icon}
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <AnimatePresence mode="popLayout">
+            {filteredTools.map((tool, i) => (
+              <motion.div
+                layout
+                key={tool.name}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.2 }}
+                whileHover={{ y: -5 }}
+                className="glass-card rounded-2xl p-6 cursor-pointer group hover:bg-white/5 relative overflow-hidden flex flex-col h-full border-t border-white/5"
+                onClick={() => onLaunch(tool.action)}
+              >
+                <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <ArrowRight className="w-5 h-5 text-white -rotate-45" />
                 </div>
-                <div>
+
+                <div className="mb-6">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-white/10 to-transparent border border-white/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    {tool.icon}
+                  </div>
                   <h3 className="text-xl font-bold text-white mb-2">{tool.name}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed mb-4">{tool.description}</p>
-                  <div className="text-[10px] font-mono text-gray-500 bg-black/30 p-2 rounded-lg border border-white/5 truncate max-w-[300px]">
+                  <p className="text-gray-400 text-sm leading-relaxed">{tool.description}</p>
+                </div>
+
+                <div className="mt-auto pt-4 border-t border-white/5">
+                  <div className="text-[10px] font-mono text-purple-300 bg-purple-500/10 p-2.5 rounded-lg border border-purple-500/20 truncate group-hover:bg-purple-500/20 transition-colors">
                     {tool.action}
                   </div>
                 </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function DocsView() {
+  return (
+    <motion.div
+      key="docs"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="h-full flex gap-8 p-6"
+    >
+      <div className="flex-1 overflow-y-auto custom-scrollbar">
+        <div className="max-w-3xl mx-auto py-8">
+          <div className="mb-12">
+            <h1 className="text-4xl font-bold text-white mb-4">Quickstart Guide</h1>
+            <p className="text-xl text-gray-400">Initialize your first autonomous mission in seconds.</p>
+          </div>
+
+          <div className="space-y-12">
+            {[
+              { step: 1, title: "Configure Environment", desc: "Ensure GEMINI_API_KEY is set in your .env.local file." },
+              { step: 2, title: "Select a Tool", desc: "Navigate to the 'Tools' tab and select a pre-configured module." },
+              { step: 3, title: "Observe Execution", desc: "Watch the Neural Engine plan and execute steps in real-time." }
+            ].map((item) => (
+              <div key={item.step} className="flex gap-6">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold text-xl">
+                  {item.step}
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
+                  <p className="text-gray-400 leading-relaxed">{item.desc}</p>
+                </div>
               </div>
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </motion.div>
