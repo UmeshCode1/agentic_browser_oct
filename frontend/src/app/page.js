@@ -98,7 +98,7 @@ export default function Home() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 text-gradient-fellou">
-            The World's First<br />Agentic Browser
+            Agentic Browser
           </h1>
           <p className="text-gray-400 text-lg md:text-xl font-light tracking-wide max-w-2xl mx-auto">
             Intent to Action Plan. <span className="text-purple-400">Autonomous.</span>
