@@ -193,8 +193,7 @@ export default function Home() {
       <footer className="w-full text-center py-4 z-20 text-xs text-gray-500 font-mono tracking-widest uppercase opacity-70 hover:opacity-100 transition-opacity">
         Designed by Umesh Patel
       </footer>
-    </div>
-    </main >
+    </main>
   );
 }
 
