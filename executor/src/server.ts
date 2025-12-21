@@ -1,6 +1,8 @@
+
 import express, { Request, Response } from 'express';
-import { chromium, Browser, Page } from 'playwright';
 import dotenv from 'dotenv';
+import { Client, Databases } from 'node-appwrite';
+import { EkoEngine } from './core/EkoEngine';
 
 dotenv.config();
 
@@ -9,10 +11,22 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3001;
 const API_KEY = process.env.EXECUTOR_API_KEY;
+const GEMINI_KEY = process.env.GEMINI_API_KEY;
 
-let browser: Browser | null = null;
+// Appwrite Configuration
+const client = new Client();
+if (process.env.APPWRITE_ENDPOINT && process.env.APPWRITE_PROJECT_ID && process.env.APPWRITE_API_KEY) {
+    client
+        .setEndpoint(process.env.APPWRITE_ENDPOINT)
+        .setProject(process.env.APPWRITE_PROJECT_ID)
+        .setKey(process.env.APPWRITE_API_KEY);
+    // Disable SSL verification for development/testing if needed (remove in prod if possible)
+    // client.setSelfSigned(true); 
+}
 
-// Middleware for API Key verification
+const databases = new Databases(client);
+
+// Middleware
 const authenticate = (req: Request, res: Response, next: Function) => {
     const apiKey = req.headers['x-api-key'];
     if (API_KEY && apiKey !== API_KEY) {
@@ -22,57 +36,59 @@ const authenticate = (req: Request, res: Response, next: Function) => {
 };
 
 app.get('/health', (req, res) => {
-    res.json({ status: 'ok', browser: !!browser });
+    res.json({ status: 'ok', engine: 'Eko Framework v2.1' });
 });
 
-app.post('/action', authenticate, async (req, res) => {
-    const { action, params } = req.body;
+app.post('/execute', authenticate, async (req, res) => {
+    const { goal, taskId } = req.body;
 
-    if (!browser) {
-        browser = await chromium.launch({ headless: true });
-    }
+    if (!goal) return res.status(400).json({ error: 'Goal is required' });
+    if (!GEMINI_KEY) return res.status(500).json({ error: 'GEMINI_API_KEY missing' });
 
-    const context = await browser.newContext();
-    const page = await context.newPage();
+    // Define Logger
+    const logStep = async (step: any) => {
+        if (!taskId || !process.env.APPWRITE_ENDPOINT) return;
+        try {
+            await databases.createDocument('agentic_browser', 'steps', 'unique()', {
+                taskId,
+                reasoning: step.reasoning || "Executing Logic...",
+                action: step.action || "PROCESSING",
+                params: JSON.stringify(step.params || {}),
+                result: step.result || "Pending",
+                createdAt: new Date().toISOString()
+            });
+        } catch (e) {
+            console.error("[Eko] Failed to log step to Appwrite:", e);
+        }
+    };
+
+    // Initialize Engine
+    const engine = new EkoEngine({
+        geminiApiKey: GEMINI_KEY,
+        headless: true,
+        onStep: logStep
+    });
 
     try {
-        let result: any = null;
+        const result = await engine.start(goal, taskId);
 
-        switch (action) {
-            case 'navigate':
-                await page.goto(params.url, { waitUntil: 'networkidle' });
-                result = { url: page.url() };
-                break;
-            case 'screenshot':
-                const buffer = await page.screenshot();
-                result = { screenshot: buffer.toString('base64') };
-                break;
-            case 'scrape':
-                const content = await page.content();
-                result = { content };
-                break;
-            default:
-                throw new Error(`Unknown action: ${action}`);
+        // Log final completion
+        if (taskId && process.env.APPWRITE_ENDPOINT) {
+            await databases.createDocument('agentic_browser', 'logs', 'unique()', {
+                taskId,
+                message: `Task Completed: ${result.output}`,
+                type: 'success',
+                createdAt: new Date().toISOString()
+            }).catch(e => console.error("Failed to log completion", e));
         }
 
-        const screenshot = await page.screenshot();
-
-        res.json({
-            success: true,
-            result,
-            observation: {
-                url: page.url(),
-                title: await page.title(),
-                screenshot: screenshot.toString('base64')
-            }
-        });
+        res.json(result);
     } catch (error: any) {
-        res.status(500).json({ success: false, error: error.message });
-    } finally {
-        await context.close();
+        console.error("Execution Error:", error);
+        res.status(500).json({ error: error.message });
     }
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 Executor listening on port ${PORT}`);
+    console.log(`🚀 Eko Executor listening on port ${PORT}`);
 });
