@@ -71,13 +71,14 @@ GEMINI_API_KEY=your_gemini_api_key_here
 - Deployed via Appwrite Functions (Already Configured in `backend/`).
 - **Required Env Vars**: `GEMINI_API_KEY`, `EXECUTOR_URL`, `EXECUTOR_API_KEY`.
 
-### 2. Executor (Render)
+### 2. Executor (Railway)
 
-- **Automatic**: Connect your GitHub repo to Render and choose "Blueprints". It will pick up our `render.yaml`.
-- **Manual**: Create a "Web Service".
-  - **Runtime**: Docker
-  - **Root Directory**: `executor`
-  - **Env Var**: `EXECUTOR_API_KEY` (Set a strong secret).
+- **Automatic**: Connect your GitHub repo to Railway.
+- **Add Service**: Select "GitHub Repo" -> `agentic_browser_oct`.
+- **Configuration**:
+  - **Root Directory**: `executor` (in Settings -> General).
+  - **Env Var**: `EXECUTOR_API_KEY` (Set a strong secret in Variables).
+- **Domain**: Generate a domain in Settings -> Networking (e.g., `executor-production.up.railway.app`).
 
 ### 3. Frontend (Vercel)
 
