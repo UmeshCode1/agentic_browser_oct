@@ -1,8 +1,6 @@
 {
-    "name": "agentic-browser-oct",
-    "id": "agentic-browser-oct",
-    "endpoint": "https://fra.cloud.appwrite.io/v1",
-    "project": "6945d1c2000111091fd1",
+    "projectId": "6945d1c2000111091fd1",
+    "projectName": "Agentic Browser",
     "functions": [
         {
             "$id": "start-agent",
@@ -18,11 +16,8 @@
             "timeout": 15,
             "enabled": true,
             "logging": true,
-            "scopes": [
-                "documents.write",
-                "executions.write"
-            ],
-            "vars": {
+            "main": "src/main.js",
+            "variables": {
                 "APPWRITE_FUNCTION_ENDPOINT": "https://fra.cloud.appwrite.io/v1",
                 "APPWRITE_FUNCTION_PROJECT_ID": "6945d1c2000111091fd1"
             }
@@ -41,10 +36,12 @@
             "timeout": 900,
             "enabled": true,
             "logging": true,
-            "vars": {
+            "main": "src/main.js",
+            "variables": {
                 "GEMINI_API_KEY": "",
                 "EXECUTOR_URL": "",
-                "EXECUTOR_API_KEY": ""
+                "EXECUTOR_API_KEY": "",
+                "OPENAI_API_KEY": ""
             }
         }
     ]
