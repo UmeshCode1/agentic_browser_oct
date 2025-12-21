@@ -17,7 +17,7 @@ import {
   Loader2,
   Layers
 } from "lucide-react";
-import { client } from "@/lib/appwrite";
+import { client, functions } from "@/lib/appwrite";
 import Image from "next/image";
 import NextjsLogo from "../static/nextjs-icon.svg";
 import AppwriteLogo from "../static/appwrite-icon.svg";
@@ -58,25 +58,27 @@ export default function Home() {
     setLogs([{ date: new Date(), message: "Initializing neural orchestrator...", type: "system" }]);
 
     try {
-      // Logic would call start-agent function
-      setTimeout(() => {
-        const result = { success: true, taskId: "task_" + Math.random().toString(36).substr(2, 9) };
-        setTaskId(result.taskId);
+      // 1. Trigger the Start Agent function
+      const execution = await functions.createExecution(
+        'start-agent',
+        JSON.stringify({ goal, userId: 'user_frontend_demo' })
+      );
+
+      const response = JSON.parse(execution.responseBody);
+
+      if (response.success) {
+        setTaskId(response.taskId);
         setStatus("running");
+        setLogs(prev => [...prev, { date: new Date(), message: `Mission Control: Task ${response.taskId} initiated.`, type: "success" }]);
 
-        setLogs(prev => [...prev, { date: new Date(), message: "Connection established with Playwright cluster.", type: "success" }]);
+        // Polling for logs would happen here in a real app, 
+        // but for now we trust the backend is running.
+        // We'll simulate the *visual* feedback loop since we don't have real-time subscriptions set up in this simple frontend yet.
+        setLogs(prev => [...prev, { date: new Date(), message: "Orchestrator: Analysis running on cloud...", type: "system" }]);
 
-        // Simulate progress for the "World Best" demo
-        setTimeout(() => {
-          setSteps([{
-            reasoning: "Goal analyzed. Initiating target site navigation to gather context.",
-            action: "navigate",
-            params: { url: "https://google.com" }
-          }]);
-          setLogs(prev => [...prev, { date: new Date(), message: "Navigating to entry point...", type: "action" }]);
-        }, 1500);
-
-      }, 1000);
+      } else {
+        throw new Error(response.error || "Failed to start agent");
+      }
 
     } catch (err) {
       setStatus("error");

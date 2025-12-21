@@ -6,5 +6,6 @@ const client = new Client()
 
 const account = new Account(client);
 const databases = new Databases(client);
+const functions = new Functions(client);
 
-export { client, account, databases };
+export { client, account, databases, functions };
