@@ -66,15 +66,20 @@ export class PlaywrightTool {
         }
     }
 
-    async extract() {
+    async extract(): Promise<{ success: boolean; content?: string; error?: string }> {
         if (!this.page) throw new Error("Browser not launched");
-        // Simple extraction of body text
-        const content = await this.page.evaluate(() => document.body.innerText);
-        return { success: true, content: content.slice(0, 5000) }; // Limit size
+        try {
+            // Simple extraction of body text
+            const content = await this.page.evaluate(() => document.body.innerText);
+            return { success: true, content: content.slice(0, 5000) };
+        } catch (e: any) {
+            return { success: false, error: e.message };
+        }
     }
 
     async screenshot() {
         if (!this.page) throw new Error("Browser not launched");
-        return await this.page.screenshot({ encoding: 'base64' });
+        const buffer = await this.page.screenshot();
+        return buffer.toString('base64');
     }
 }

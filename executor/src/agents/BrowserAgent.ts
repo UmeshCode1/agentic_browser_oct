@@ -71,8 +71,8 @@ export class BrowserAgent {
                 return {
                     success: extRes.success,
                     summary: extRes.success ? "Extracted page content" : "Failed Extract",
-                    data: extRes.content,
-                    error: extRes.error
+                    data: extRes.success ? extRes.content : undefined,
+                    error: !extRes.success ? extRes.error : undefined
                 };
 
             case 'wait':
