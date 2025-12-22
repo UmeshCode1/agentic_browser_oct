@@ -1,126 +1,76 @@
-# 🧠 Agentic Browser (agentic-browser-oct)
+# Agentic Browser (Eko Framework)
 
-[![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
-[![Appwrite](https://img.shields.io/badge/Appwrite-Cloud-d0225d)](https://appwrite.io/)
-[![Gemini](https://img.shields.io/badge/AI-Gemini%202.0-blue)](https://deepmind.google/technologies/gemini/)
-[![Playwright](https://img.shields.io/badge/Browser-Playwright-45ba4b)](https://playwright.dev/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+> **The World's First Autonomous "Intent-to-Action" Browser.**  
+> *Powered by Eko Framework, Gemini 2.0, and Appwrite.*
 
-> **"The World's Best AI-Powered Autonomous Web Agent"**
+![Agentic Browser UI](https://raw.githubusercontent.com/UmeshCode1/agentic_browser_oct/main/images/hero_banner.png)
 
-**Agentic Browser** is a production-grade, autonomous web interaction system. It doesn't just scrape; it *thinks*, *observes*, and *acts*. Powered by Google's Gemini 2.0 Flash and a dedicated Playwright executor, it can navigate complex web workflows, fill forms, and extract data with reasoning capabilities.
+## 🚀 Overview
 
----
+**Agentic Browser** is not just a tool; it's an intelligent agent that browses the web for you. Built on the robust **Eko Framework**, it decomposes natural language goals into executable plans, performs complex web interactions, and streams its "thought process" back to you in real-time.
 
-## ✨ Key Features
+Whether it's "Find the cheapest flight to Tokyo" or "Summarize the top 3 tech news stories," the Agentic Browser plans, reasons, and executes.
 
-- **🤖 Autonomous Reasoning Engine**: Implements a sophisticated **Plan-Act-Observe-Decide** loop.
-- **👀 Real-Time Observation**: Watch the agent's thought process and actions live on the dashboard.
-- **☁️ Headless Cloud Execution**: Scalable browser sessions powered by a deployed Executor service.
-- **🔒 Secure & Scalable**: Fully integrated with Appwrite for Authentication, Database, and Serverless Functions.
-- **🚀 Modern Tech Stack**: Built with Next.js 14, Tailwind CSS, and Node.js.
+## ✨ Features
 
----
+- **🧠 Eko Brain**: Powered by Google Gemini 2.0 Flash for high-speed reasoning and planning.
+- **🌐 Autonomous Navigation**: Handles complex DOM interactions, clicks, typing, and dynamic waiting using Playwright.
+- **⚡ Real-Time Neural Stream**: Watch the agent "think" and "act" live via Appwrite Realtime.
+- **🛡️ Enterprise Security**: Zero-Trust architecture. Your API keys never leave the secure Executor vault.
+- **🎨 Deep Void UX**: A premium, "Fellou-inspired" aesthetic designed for focus and clarity.
 
-## 🏗 System Architecture
+## 🏗️ Architecture
 
-The project is structured as a modern monorepo:
+The system follows the **Eko Framework** distributed architecture:
 
-| Directory | Service | Description |
-| :--- | :--- | :--- |
-| **`/frontend`** | **Control Center** | Next.js Dashboard for users to issue commands and watch agent logs. |
-| **`/backend`** | **Brain & Logic** | Appwrite Functions (`Agent Orchestrator`) that handle the AI reasoning loop. |
-| **`/executor`** | **Hands & Eyes** | Express.js + Playwright service that physically interacts with web pages. |
+1. **Experience Layer (Frontend)**: Next.js + TailwindCSS.
+2. **Orchestration Layer (Backend)**: Appwrite Cloud Functions.
+3. **Execution Layer (The Brain)**: Persistent Node.js/Express service on Railway.
 
----
+👉 **[View Detailed Architecture & Mindmap](docs/ARCHITECTURE.md)**
 
-## 🚀 Getting Started
-
-Follow these steps to deploy your own instance of Agentic Browser.
+## 🛠️ Quickstart
 
 ### Prerequisites
 
-- **Node.js** (v18+)
-- **Appwrite Cloud** Account
-- **Google Gemini API** Key
+- Node.js 18+
+- Appwrite Cloud Account
+- Railway Account (for Executor)
+- Google Gemini API Key
 
-### 1. Installation
+### Installation
 
-```bash
-git clone https://github.com/UmeshCode1/agentic_browser_oct.git
-cd agentic_browser_oct
-```
+1. **Clone the Repository**
 
-### 2. Environment Setup
+    ```bash
+    git clone https://github.com/UmeshCode1/agentic_browser_oct.git
+    cd agentic_browser_oct
+    ```
 
-Create a `.env.local` file in the root directory. This is your single source of truth for secrets.
+2. **Setup Environment**
+    Copy `.env.example` to `.env.local` and fill in your Appwrite credentials.
 
-```env
-# Appwrite Configuration
-NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
-NEXT_PUBLIC_APPWRITE_PROJECT_ID=your_project_id_here
+3. **Deploy Executor**
+    Deploy the `/executor` directory to Railway.
+    **Critical**: Set `GEMINI_API_KEY` in Railway Variables.
 
-# AI Configuration
-GEMINI_API_KEY=your_gemini_api_key_here
-```
+4. **Run Frontend**
 
-## ☁️ Deployment
+    ```bash
+    cd frontend
+    npm install
+    npm run dev
+    ```
 
-### 1. Backend (Appwrite)
+## 📚 Documentation
 
-- Deployed via Appwrite Functions (Already Configured in `backend/`).
-- **Required Env Vars**: `GEMINI_API_KEY`, `EXECUTOR_URL`, `EXECUTOR_API_KEY`.
+- [**Architecture Deep Dive**](docs/ARCHITECTURE.md)
+- [**Security Policy**](docs/SECURITY.md)
+- [**Contributing Guide**](docs/CONTRIBUTING.md)
 
-### 2. Executor (Railway)
+## 👨‍💻 Credits
 
-- **Automatic**: Connect your GitHub repo to Railway.
-- **Add Service**: Select "GitHub Repo" -> `agentic_browser_oct`.
-- **Configuration**:
-  - **Root Directory**: `executor` (in Settings -> General).
-  - **Env Var**: `EXECUTOR_API_KEY` (Set a strong secret in Variables).
-- **Domain**: Generate a domain in Settings -> Networking (e.g., `executor-production.up.railway.app`).
-
-### 3. Frontend (Vercel)
-
-- Import the repo to Vercel.
-- **Root Directory**: `frontend`.
-- **Framework**: Next.js.
-- **Env Vars**:
-  - `NEXT_PUBLIC_APPWRITE_ENDPOINT`: `https://cloud.appwrite.io/v1`
-  - `NEXT_PUBLIC_APPWRITE_PROJECT_ID`: *(from your Appwrite settings)*`
-
-### 3. Run Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Visit `http://localhost:3000` to see the Agentic Browser Dashboard.
+Designed & Engineered by **Umesh Patel**.
 
 ---
-
-## 📘 Documentation
-
-We believe in world-class documentation. Check out our detailed guides:
-
-- [**Architecture Deep Dive**](./docs/architecture.md) - Understand how the PAOD loop works.
-- [**Agent Workflow**](./docs/agent-flow.md) - See the logic behind the AI's decisions.
-- [**Deployment Guide**](./docs/deployment.md) - Deploy to Vercel and Render.
-
----
-
-## 🛡 Security
-
-This project takes security seriously:
-
-- **Zero Hardcoded Secrets**: All keys are managed via Environment Variables.
-- **Sanitized Logging**: Sensitive data is scrubbed before storage.
-- **Secure Functions**: Appwrite Functions run in isolated environments.
-
----
-
-## 📄 License
-
-This project is open-sourced under the MIT License.
+*Built with ❤️ using the Eko Framework.*
