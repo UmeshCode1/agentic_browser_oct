@@ -30,12 +30,13 @@ export default function Home() {
     logsEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [conversation, steps]);
 
+  const [currentTaskId, setCurrentTaskId] = useState(null);
+
   // Appwrite Init
   useEffect(() => {
     const init = async () => {
       try {
         await client.ping();
-        // Silent success
       } catch (error) {
         console.error("Appwrite Init Failed", error);
       }
@@ -48,13 +49,21 @@ export default function Home() {
       (response) => {
         if (response.events.includes("databases.*.collections.*.documents.*.create")) {
           const payload = response.payload;
-          setSteps(prev => [...prev, payload]);
+          // Only show steps for the current task
+          if (currentTaskId && payload.taskId === currentTaskId) {
+            setSteps(prev => [...prev, payload]);
+          } else if (!currentTaskId) {
+            // Fallback if state isn't updated yet (rare race) or legacy
+            // Ideally we strictly filter, but for demo we can be loose or strict.
+            // Let's be semi-strict: if we have a task ID, enforce it.
+            if (payload.taskId) setSteps(prev => [...prev, payload]);
+          }
         }
       }
     );
 
     return () => unsubscribe();
-  }, []);
+  }, [currentTaskId]);
 
   async function launchAgent() {
     if (!goal || status === "thinking") return;
@@ -62,28 +71,32 @@ export default function Home() {
     // Add User Message
     setConversation(prev => [...prev, { type: 'user', content: goal }]);
     setStatus("thinking");
-    setSteps([]); // Clear previous steps for new run
+    setSteps([]); // Clear previous steps
+
+    // Generate Task ID
+    const taskId = 'task_' + Math.random().toString(36).substr(2, 9);
+    setCurrentTaskId(taskId); // Update state for subscription filter
 
     const currentGoal = goal;
     setGoal(""); // Clear input
 
     try {
       const execution = await functions.createExecution(
-        'start-agent',
-        JSON.stringify({ goal: currentGoal, userId: 'user_fellou_v2' })
+        'agent-orchestrator', // UPDATED ID
+        JSON.stringify({ goal: currentGoal, taskId: taskId }) // Correct Payload
       );
 
       const response = JSON.parse(execution.responseBody);
 
       if (response.success) {
         setStatus("active");
-        // Agent "Started" message handled by UI state
       } else {
         throw new Error(response.error || "Failed to start");
       }
     } catch (err) {
+      console.error("Agent Launch Error:", err);
       setStatus("error");
-      setConversation(prev => [...prev, { type: 'system', content: "Connection severed. Neural link failed." }]);
+      setConversation(prev => [...prev, { type: 'system', content: "Connection severed. Neural link failed. (Backend Error)" }]);
     }
   }
 
