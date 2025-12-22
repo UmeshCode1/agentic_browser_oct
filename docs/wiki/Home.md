@@ -1,24 +1,32 @@
-# Welcome to the Agentic Browser Wiki
+# Welcome to the Agentic Browser Wiki 🧠
 
-The **Agentic Browser** is an autonomous web navigation and information extraction system. It leverages Large Language Models (LLMs) to reason through browser-based tasks, mimicking human interaction to achieve complex goals.
+**The Agentic Browser** is a next-generation autonomous web agent that uses the **Eko Framework** to plan and execute complex tasks on the open web.
 
-## 🚀 Key Objectives
+## 📚 Documentation Index
 
-- **Autonomy:** Perform tasks without constant human intervention.
-- **Reasoning:** Use a Plan-Act-Observe-Decide loop to handle dynamic web environments.
-- **Transparency:** Real-time visibility into the agent's thought process and actions.
+### 🚀 [Getting Started](User-Guide)
 
-## 📘 Quick Navigation
+- Installation & Setup
+- Configuration (Env Vars)
+- Running your first mission
 
-- **[Project Architecture](Project-Architecture)**: Deep dive into the system components.
-- **[Agent Workflow](Agent-Workflow)**: Understanding the reasoning loop.
-- **[Technology Stack](Technology-Stack)**: The tools powering this system.
-- **[Setup Guide](Setup-Guide)**: Instructions for local and cloud setup.
-- **[Environment Variables](Environment-Variables)**: Managing secrets and configuration.
-- **[Future Enhancements](Future-Enhancements)**: Roadmap for the project.
+### 🛠️ [Developer Manual](Developer-Manual)
+
+- Eko Architecture Explained
+- Agents & Tools deeply analyzed
+- Extending the system (Adding new tools)
+
+### 🐛 [Troubleshooting](Troubleshooting)
+
+- Common Errors (Railway, Appwrite)
+- Debugging the "Neural Stream"
+- FAQ
+
+## 🌟 Key Features
+
+- **Natural Language Control**: "Book me a table," "Research this stock," "Summarize this PDF."
+- **Visual Feedback**: Watch the agent think and click in real-time.
+- **Enterprise Security**: Zero-leak architecture for API keys.
 
 ---
-
-### 🌟 Project Status
-
-Currently in **Minor Project Phase**. The core architecture is implemented with Appwrite, Playwright, and Gemini 2.0 Flash.
+*Maintained by the Agentic Browser Team.*
